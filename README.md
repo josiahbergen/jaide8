@@ -2,24 +2,10 @@
 
 jaide is a custom computing architecture.
 
-see the [hardware spec](docs/spec.md) and [developer documentation](docs/lang.md) for more information.
+see the [hardware documentation](docs/spec.md) and [software documentation](docs/lang.md) for more information.
 
-## development
+alternatively, use the following command to get started:
 
-Install the project and its development tools:
-
-```sh
-uv sync
-```
-
-List the available project tasks:
-
-```sh
-uv run poe --help
-```
-
-Build and run the emulator:
-
-```sh
-uv run poe all
+```bash
+uv run poe all  # requires uv and python: https://docs.astral.sh/uv/
 ```
