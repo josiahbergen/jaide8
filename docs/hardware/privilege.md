@@ -43,13 +43,11 @@ kernel code never runs on a user-controlled stack.
 
 `syscall` is a zero-operand instruction. userspace passes the syscall number and arguments in registers:
 
-
 | register | use                            |
 | -------- | ------------------------------ |
 | `a`      | syscall number; primary result |
 | `b`-`e`  | arguments; secondary results   |
 | `x`-`z`  | scratch                        |
-
 
 when executed in user mode, `syscall`:
 
@@ -76,7 +74,6 @@ after kernel entry, `sp` points to this hardware-defined frame:
 | `+4`   | previous mode |
 | `+5`   | event kind    |
 | `+6`   | event detail  |
-
 
 the event kind identifies a processor fault (`0`) or syscall (`1`), and the event detail contains the syscall number or fault code.
 

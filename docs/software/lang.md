@@ -6,7 +6,7 @@ jasm is a custom assembly langauge that, when assembled, allows one to run binar
 
 to make programming easier, extensions for [vscode](https://github.com/josiahbergen/jasm), [cursor](https://github.com/josiahbergen/jasm), and [zed (outdated, contact me if you need it)](https://github.com/josiahbergen/zed-jasm) are available.
 
-for a list of all instructions, see the [instruction set](lang/inst.txt). you can also view the language [grammar](../jasm/language/grammar.py), if you're into that.
+for a list of all instructions, see the [instruction set](inst.txt). you can also view the language [grammar](../../jasm/language/grammar.py), if you're into that.
 
 _keep in mind that proficiency in at least one assembly language (x86 perferred!) is assumed when reading this document. jasm is very similar to other assembly programming languages, and you will find that most aspects come naturally!_
 
@@ -111,7 +111,7 @@ _note: PIC (position-independent) addressing modes (`[label]`, `[label + reg]`) 
 
 jaide's emulator comes with a few devices out-of-the-box.
 
-see the device [documentation](devices/) for information on each device!
+see the device [documentation](hardware/devices.md) for information on each device!
 
 ## directives
 
@@ -214,13 +214,60 @@ mov y, 10
 xy_to_vram z, x, y ; puts some memory address in z
 ```
 
-### MMIO helpers
+## language definition
 
-`kernel/src/macros.jasm` defines assembler macros (not CPU instructions) for memory-mapped device access:
+```ebnf
+(* core *)
+start       = { line } ;
+line        = [ w , (instruction | directive | label | macro | data | macro_call) ] , [ comment ] , "\n" ;
+label       = label_name , ":" ;
 
-```jasm
-mmio_in A, mmio_keyboard_data   ; read MMIO register into A (trashes E)
-mmio_out mmio_system, A         ; write A to MMIO register (trashes E, Z)
+(* directives *)
+directive   = data | import ;
+data        = "DATA" , w , constant , { "," , w , constant } ;
+import      = "IMPORT" , w , string ;
+
+(* macros *)
+macro       = "MACRO" , w , label_name , w , macro_args , "\n" , { macro_line } , "END MACRO" ;
+macro_args  = macro_arg , { "," , w , macro_arg } ;
+macro_line  = [ w , (instruction | data | macro_call) ] , [ comment ] , "\n" ;
+macro_call  = label_name , w , [ op_list ] ;
+
+(* instructions *)
+instruction = mnemonic , w , [ op_list ] ;
+op_list     = generic_op , { "," , [ w ] , generic_op } ;
+
+(* operands *)
+generic_op  = operand | macro_arg | expression ;
+operand     = register | number | label_name ;
+macro_arg   = "%" , label_name ;
+
+(* expressions *)
+expression  = "(" , [ w , operator ] , w , exp_term, { w , operator , w , exp_term } , w , ")" ;
+exp_term    = number | macro_arg | expression ;
+operator    = "+" | "-" | "*" | "/" | "%" | "<<" | ">>" | "&" | "|" | "^" | "~" ;
+
+(* instructions and registers *)
+mnemonic    = "GET" | "PUT" | "MOV" | "PUSH" | "POP" | "ADD" | "ADC"
+            | "SUB" | "SBC" | "INC" | "DEC" | "LSH" | "RSH" | "AND"
+            | "OR" | "NOR" | "NOT" | "XOR" | "INB" | "OUTB" | "CMP"
+            | "JMP" | "JZ" | "JNZ" | "JC" | "JNC" | "CALL" | "RET"
+            | "HALT" | "NOP" ;
+
+register    = "A" | "B" | "C" | "D" | "E" | "X" | "Y" | "PC" | "SP" | "MB" | "F" | "Z" | ;
+
+(* base terminals *)
+constant    = number | string ;
+number      = "0x" , hex_digit , { hex_digit }
+            | "b" , bin_digit , { bin_digit }
+            | digit , { digit } ;
+
+string      = '"' , { char } , '"' ;
+label_name  = letter , { letter | digit | "_" } ;
+comment     = ( ";" ) , { char | w } ;
+w           = { " " | "\t" } ;
+char        = letter | digit | symbol ;
+hex_digit   = digit | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c" | "d" | "e" | "f" ;
+bin_digit   = "0" | "1" ;
+
 ```
-
-see [spec.md](spec.md) for the register map and `MMIO_BASE` (`0xFE00`).

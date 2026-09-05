@@ -9,7 +9,7 @@ from tap import Tap
 
 
 class ZeroIndexedEnum(IntEnum):
-    """zero-indexed int enum."""
+    """regular int enum is 1-indexed. ugh."""
 
     @staticmethod
     def _generate_next_value_(name, start, count, last_values):
@@ -80,6 +80,7 @@ class REGISTERS(ZeroIndexedEnum):
     MB = auto()
     SP = auto()
     PC = auto()
+    MD = auto()
 
 
 class MODES(ZeroIndexedEnum):
