@@ -2,7 +2,7 @@
 # emulator-specific constants for the jaide project.
 # josiah bergen, january 2026
 
-from common.isa import OPCODE_FORMATS
+from common.isa import OPCODE_FORMATS, REGISTERS
 
 MEMORY_SIZE = 0x10000 * 2  # 128KiB total (64K word addresses × 2 bytes)
 BANK_SIZE   = 0x4000 * 2   # bytes per bank (0x4000 = 16384 words, 2¹⁴)
@@ -23,7 +23,7 @@ MMIO_END  = 0xFEFF
 MMIO_SYSTEM = 0xFEFF
 
 # Register names in index order (matches REGISTERS enum in common.isa)
-REGISTERS = ["A", "B", "C", "D", "E", "X", "Y", "Z", "F", "MB", "SP", "PC"]
+REGISTERS = ["A", "B", "C", "D", "E", "X", "Y", "Z", "F", "MB", "SP", "PC", "MDE"]
 
 FLAG_C = 0  # carry
 FLAG_Z = 1  # zero

@@ -151,7 +151,7 @@ class Emulator:
 
         # reset registers
         for register in self.reg.values():
-            register.set(0)
+            register.set(0)  # conveniently, this puts us in supervisor mode
         self.sp.set(0xFDFF)
         self.halted = False
 
