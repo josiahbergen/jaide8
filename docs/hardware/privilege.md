@@ -64,7 +64,6 @@ userspace cannot supply a target address. executing `syscall` in supervisor mode
 
 after kernel entry, `sp` points to this hardware-defined frame:
 
-
 | offset | field         |
 | ------ | ------------- |
 | `+0`   | resume pc     |
@@ -89,7 +88,7 @@ before restoring user mode, the cpu verifies that:
 
 the cpu validates the complete frame before changing any state. when returning to user mode, it updates `ssp`; it then restores `mb`, flags, `sp`, and `pc`, and restores the saved mode last.
 
-the kernel may use `resume` to return from kernel entry or to launch a process from a context frame it has constructed. 
+the kernel may use `resume` to return from kernel entry or to launch a process from a context frame it has constructed.
 
 executing `resume` in user mode raises a protection fault.
 

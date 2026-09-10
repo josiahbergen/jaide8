@@ -61,26 +61,26 @@ class INSTRUCTIONS(ZeroIndexedEnum):
     CALL = auto()
     RET  = auto()
     BCP  = auto()
-    # SYSCALL = auto()
-    # RESUME  = auto()
+    SYSCALL = auto()
+    RESUME  = auto()
 
 
 class REGISTERS(ZeroIndexedEnum):
     """all the registers"""
 
-    A  = auto()
-    B  = auto()
-    C  = auto()
-    D  = auto()
-    E  = auto()
-    X  = auto()
-    Y  = auto()
-    Z  = auto()
-    F  = auto()
-    MB = auto()
-    SP = auto()
-    PC = auto()
-    MD = auto()
+    A   = auto()
+    B   = auto()
+    C   = auto()
+    D   = auto()
+    E   = auto()
+    X   = auto()
+    Y   = auto()
+    Z   = auto()
+    F   = auto()
+    MB  = auto()
+    SP  = auto()
+    PC  = auto()
+    MDE = auto()
 
 
 class MODES(ZeroIndexedEnum):
