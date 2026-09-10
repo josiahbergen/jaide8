@@ -22,7 +22,7 @@
         "**/__pycache__",
         "**/.vscode",
         "**/bin",
-        ".zed",
+        // ".zed",
         ".gitignore",
         ".python-version",
         "README.md",

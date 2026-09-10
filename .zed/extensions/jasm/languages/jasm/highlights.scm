@@ -1,6 +1,5 @@
 (comment) @comment
 (string) @string
-(escape_sequence) @escape
 
 (directive) @keyword
 (macro_keyword) @keyword
@@ -11,8 +10,8 @@
 (macro_argument name: (identifier) @variable.parameter)
 
 (number) @number
-(operator) @operator
-"," @punctuation.delimiter
+[(operator) (operator_plus)] @operator
+(comma) @punctuation.delimiter
 ":" @punctuation.delimiter
 "[" @punctuation.bracket
 "]" @punctuation.bracket
